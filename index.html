@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hindsight Crypto</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script defer src="./app.js"></script>
+    <link rel="stylesheet" href="style.css"
+  </head>
+  <body>
+    <header><h1>Hindsight Crypto</h1></header>
+    <main>
+      <section>
+        <canvas id="cryptoChart"></canvas>
+        <div id="weeks"></div>
+        <input id="weekSlider" type="range" min="2" max="143" value="52" />
+      </section>
+      <form>
+        <div>
+          <label for="Crypto Ticker">Crypto Ticker</label>
+          <input
+            type="text"
+            id="crypto"
+            name="crypto"
+            required
+            minlength="3"
+            maxlength="5"
+            size="6"
+          />
+          <button type="submit" id="submit">Submit</button>
+        </div>
+        <div>
+          <table>
+            <tbody>
+              <tr id="buy"></tr>
+              <tr id="sell"></tr>
+              <tr id="profit"></tr>
+            </tbody>
+          </table>
+          <!-- <span id="perCoin"></span>
+          <span id="buy"></span> <br />
+          <span id="sell"></span>
+          <br />
+          <span id="profit"></span> <br />
+          <span id="percent"></span> -->
+          <button type="submit" id="maxProfit">Max Profit</button>
+        </div>
+      </form>
+    </main>
+    <footer>Created by Jay Palacio</footer>
+  </body>
+</html>
