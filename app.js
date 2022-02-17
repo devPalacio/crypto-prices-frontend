@@ -10,6 +10,7 @@ maxProfit.addEventListener("click", calcMaxProfit);
 
 let weekSlider = document.getElementById("weekSlider");
 weekSlider.addEventListener("change", buildChart);
+
 function submitSearch(event) {
   event.preventDefault();
   var symbol = document.querySelector("#crypto").value.toUpperCase();
@@ -21,7 +22,7 @@ function submitSearch(event) {
     buildChart();
     return;
   }
-
+  // not in local? make request
   var apiRequest = new Request(
     `https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_WEEKLY&symbol=${symbol}&market=USD&apikey=HPRS1K7BPTHM7CLU`
   );
@@ -39,10 +40,7 @@ function submitSearch(event) {
       buildChart();
     })
     .catch(function (error) {
-      // var p = document.createElement("p");
       alert("Coin not found, try a different ticker");
-      // p.appendChild(document.createTextNode("Error: " + error.message));
-      // document.body.append(p);
     });
 }
 
@@ -61,7 +59,6 @@ function buildChart() {
     })
   );
   // chronological order and trim.
-  // max weeks is 143
   let weeksOfData = document.getElementById("weekSlider").value;
   chartData = chartData.reverse().slice(-weeksOfData);
   document.getElementById(
@@ -109,11 +106,9 @@ function calcMaxProfit(e) {
   let min = prices[0].price;
   answer.buyDate = prices[0].date;
   answer.buy = min;
-  console.log("min", min);
 
   for (let i = 1; i < prices.length; ++i) {
     if (min > prices[i].price) {
-      console.log("new min", min, prices[i]);
       min = prices[i].price;
       if (answer?.buyDate < answer?.sellDate) {
         continue;
@@ -126,7 +121,6 @@ function calcMaxProfit(e) {
       answer.sellDate = prices[i].date;
       answer.sell = prices[i].price;
       answer.maxProfit = profit;
-      // console.log("new profit", profit, [prices[i]]);
     }
   }
   console.log(answer);
@@ -141,10 +135,6 @@ function calcMaxProfit(e) {
     (answer.maxProfit / answer.buy) *
     100
   ).toFixed(2)}% gain</th><th>$${answer.maxProfit.toFixed(3)}</th>`;
-  // document.getElementById("percent").innerText = `${(
-  //   (answer.maxProfit / answer.buy) *
-  //   100
-  // ).toFixed(2)}% gain`;
   console.log(answer);
   return;
 }
@@ -156,25 +146,30 @@ function clearProfit() {
 }
 
 // on page load, load BTC
-// fetch(
-//   new Request(
-//     `https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_WEEKLY&symbol=BTC&market=USD&apikey=HPRS1K7BPTHM7CLU`
-//   )
-// )
-//   .then(function (response) {
-//     if (!response.ok) {
-//       throw new Error("HTTP error, status = " + response.status);
-//     }
-//     return response.json();
-//   })
-//   .then(function (data) {
-
-//     console.log(data);
-//     apiData = data;
-//     buildChart();
-//   })
-//   .catch(function (error) {
-//     var p = document.createElement("p");
-//     p.appendChild(document.createTextNode("Error: " + error.message));
-//     document.body.append(p);
-//   });
+if (localStorage.getItem("BTC")) {
+  apiData = JSON.parse(localStorage.getItem("BTC"));
+  console.info("Data from localstorage");
+  buildChart();
+} else {
+  fetch(
+    new Request(
+      `https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_WEEKLY&symbol=BTC&market=USD&apikey=HPRS1K7BPTHM7CLU`
+    )
+  )
+    .then(function (response) {
+      if (!response.ok) {
+        throw new Error("HTTP error, status = " + response.status);
+      }
+      return response.json();
+    })
+    .then(function (data) {
+      console.log(data);
+      apiData = data;
+      buildChart();
+    })
+    .catch(function (error) {
+      var p = document.createElement("p");
+      p.appendChild(document.createTextNode("Error: " + error.message));
+      document.body.append(p);
+    });
+}
