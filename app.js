@@ -169,8 +169,6 @@ if (localStorage.getItem("BTC")) {
       buildChart();
     })
     .catch(function (error) {
-      var p = document.createElement("p");
-      p.appendChild(document.createTextNode("Error: " + error.message));
-      document.body.append(p);
+      alert("API Having issues, try again later");
     });
 }
