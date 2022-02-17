@@ -165,7 +165,7 @@ if (localStorage.getItem("BTC")) {
     .then(function (data) {
       console.log(data);
       apiData = data;
-      localStorage.setItem(symbol, JSON.stringify(apiData));
+      localStorage.setItem("BTC", JSON.stringify(apiData));
       buildChart();
     })
     .catch(function (error) {
