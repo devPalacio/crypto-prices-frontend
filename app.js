@@ -79,11 +79,6 @@ function buildChart() {
   const config = {
     type: "line",
     data: data,
-    defaults: {
-      font: {
-        size: 20,
-      },
-    },
     options: {
       font: {
         size: 20,
@@ -102,12 +97,22 @@ function buildChart() {
           },
         },
       },
-      title: {
-        size: 20,
+      plugins: {
+        legend: {
+          labels: {
+            color: "white",
+            font: {
+              size: 22,
+            },
+          },
+        },
       },
+
       legend: {
+        color: "white",
         labels: {
-          fontSize: 16,
+          color: "white",
+          font: { defaultFontSize: 16 },
         },
       },
       parsing: {
