@@ -69,8 +69,8 @@ function buildChart() {
     datasets: [
       {
         label: currencyName,
-        backgroundColor: "rgb(255, 99, 132)",
-        borderColor: "rgb(255, 99, 132)",
+        backgroundColor: "rgb(122, 161, 91)",
+        borderColor: "rgb(122, 161, 91)",
         data: chartData,
       },
     ],
@@ -79,7 +79,37 @@ function buildChart() {
   const config = {
     type: "line",
     data: data,
+    defaults: {
+      font: {
+        size: 20,
+      },
+    },
     options: {
+      font: {
+        size: 20,
+      },
+      scales: {
+        x: {
+          ticks: {
+            color: "white",
+            font: { size: 14 },
+          },
+        },
+        y: {
+          ticks: {
+            color: "white",
+            font: { size: 16 },
+          },
+        },
+      },
+      title: {
+        size: 20,
+      },
+      legend: {
+        labels: {
+          fontSize: 16,
+        },
+      },
       parsing: {
         xAxisKey: "date",
         yAxisKey: "price",

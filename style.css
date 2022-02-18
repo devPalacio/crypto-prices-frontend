@@ -66,6 +66,7 @@ main {
   margin: 0 auto;
   max-width: var(--width-content);
   padding: 0.5rem 1rem;
+  text-align: center;
 }
 
 hr {
@@ -366,10 +367,11 @@ form {
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow) var(--color-shadow);
   display: block;
-  /* max-width: var(--width-card-wide); */
+  max-width: var(--width-card-wide);
   min-width: var(--width-card);
   padding: 1.5rem;
   text-align: var(--justify-normal);
+  align-self: center;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -487,4 +489,28 @@ blockquote footer {
 
 div {
   padding-right: 2rem;
+}
+
+canvas {
+  background-color: rgba(27, 27, 27, 0.226);
+  border-radius: 6%;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid black;
+}
+
+.weeks {
+  margin-top: 1rem;
+}
+
+#cryptoInput {
+  text-align: center;
+  margin: 0;
+  align-items: center;
+  align-content: center;
+  display: inline-block;
+}
+
+#weekSlider {
+  width: 20rem;
 }

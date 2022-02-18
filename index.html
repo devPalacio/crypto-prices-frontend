@@ -17,31 +17,35 @@
         <div id="weeks"></div>
         <input id="weekSlider" type="range" min="2" max="143" value="52" />
       </section>
-      <form>
-        <div>
-          <label for="Crypto Ticker">Crypto Ticker</label>
-          <input
-            type="text"
-            id="crypto"
-            name="crypto"
-            required
-            minlength="3"
-            maxlength="5"
-            size="6"
-          />
-          <button type="submit" id="submit">Submit</button>
-        </div>
-        <div>
-          <table>
-            <tbody>
-              <tr id="buy"></tr>
-              <tr id="sell"></tr>
-              <tr id="profit"></tr>
-            </tbody>
-          </table>
-          <button type="submit" id="maxProfit">Max Profit</button>
-        </div>
-      </form>
+      <section>
+        <form>
+          <div>
+            <div id ="cryptoInput">
+              <label for="Crypto Ticker">Crypto Ticker</label>
+              <input
+                type="text"
+                id="crypto"
+                name="crypto"
+                required
+                minlength="3"
+                maxlength="5"
+                size="6"
+              />
+            </div>
+            <button type="submit" id="submit">Submit</button>
+            <button type="submit" id="maxProfit">Max Profit</button>
+          </div>
+          <div>
+            <table>
+              <tbody>
+                <tr id="buy"></tr>
+                <tr id="sell"></tr>
+                <tr id="profit"></tr>
+              </tbody>
+            </table>
+          </div>
+        </form>
+      </section>
     </main>
     <footer>Created by Jay Palacio</footer>
   </body>
