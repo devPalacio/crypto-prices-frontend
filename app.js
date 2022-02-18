@@ -145,31 +145,42 @@ function calcMaxProfit(e) {
   for (let i = 1; i < prices.length; ++i) {
     if (min > prices[i].price) {
       min = prices[i].price;
-      if (answer?.buyDate < answer?.sellDate) {
-        continue;
-      }
-      answer.buyDate = prices[i].date;
-      answer.buy = min;
-      console.log(answer.buy);
+      // if (prices[i].date > answer?.sellDate) {
+      //   continue;
+      // }
+      // answer.buyDate = prices[i].date;
+      // answer.buy = min;
+      // console.log(answer.buy);
     } else if (prices[i].price - min > profit) {
       profit = prices[i].price - min;
       answer.sellDate = prices[i].date;
       answer.sell = prices[i].price;
       answer.maxProfit = profit;
+      // make function to find buydate & price based on proft
+      findBuyDate(answer.sell, answer.maxProfit);
+    }
+
+    function findBuyDate(sellPrice, profit) {
+      console.log(prices);
+      let buyInfo = prices.filter(
+        (e) => e.price === +(sellPrice - profit).toFixed(6)
+      );
+      answer.buyDate = buyInfo[0].date;
+      answer.buy = buyInfo[0].price.toFixed(2);
     }
   }
   console.log(answer);
   // set text for max profit
-  document.getElementById("buy").innerHTML = `<td>Buy</td> <td>${
-    answer.buyDate
-  } </td><td>$${answer.buy.toFixed(3)}</td>`;
+  document.getElementById(
+    "buy"
+  ).innerHTML = `<td>Buy</td> <td>${answer.buyDate} </td><td>$${answer.buy}</td>`;
   document.getElementById("sell").innerHTML = `<td>Sell</td> <td>${
     answer.sellDate
-  } </td><td>$${answer.sell.toFixed(3)}</td>`;
+  } </td><td>$${answer.sell.toFixed(2)}</td>`;
   document.getElementById("profit").innerHTML = `<th>Profit</th><th>${(
     (answer.maxProfit / answer.buy) *
     100
-  ).toFixed(2)}% gain</th><th>$${answer.maxProfit.toFixed(3)}</th>`;
+  ).toFixed(2)}% gain</th><th>$${answer.maxProfit.toFixed(2)}</th>`;
   console.log(answer);
   return;
 }
