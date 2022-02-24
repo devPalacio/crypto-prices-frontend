@@ -65,7 +65,7 @@ function buildChart() {
     "weeks"
   ).innerText = `Last ${chartData.length} weeks.`;
 
-  const data = {
+  let data = {
     datasets: [
       {
         label: currencyName,
