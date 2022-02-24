@@ -1,19 +1,19 @@
 "use strict";
-var apiData;
-var chartData = [];
+let apiData;
+const chartData = [];
 let myChart;
-let submitBtn = document.getElementById("submit");
+const submitBtn = document.getElementById("submit");
 submitBtn.addEventListener("click", submitSearch);
 
-let maxProfit = document.getElementById("maxProfit");
+const maxProfit = document.getElementById("maxProfit");
 maxProfit.addEventListener("click", calcMaxProfit);
 
-let weekSlider = document.getElementById("weekSlider");
+const weekSlider = document.getElementById("weekSlider");
 weekSlider.addEventListener("change", buildChart);
 
 function submitSearch(event) {
   event.preventDefault();
-  var symbol = document.querySelector("#crypto").value.toUpperCase();
+  const symbol = document.querySelector("#crypto").value.toUpperCase();
 
   // check if result is in local storage
   if (localStorage.getItem(symbol)) {
@@ -23,7 +23,7 @@ function submitSearch(event) {
     return;
   }
   // not in local? make request
-  var apiRequest = new Request(
+  const apiRequest = new Request(
     `https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_WEEKLY&symbol=${symbol}&market=USD&apikey=HPRS1K7BPTHM7CLU`
   );
   fetch(apiRequest)
@@ -46,7 +46,7 @@ function submitSearch(event) {
 
 // chart logic below
 function buildChart() {
-  let currencyName = apiData["Meta Data"]["3. Digital Currency Name"];
+  const currencyName = apiData["Meta Data"]["3. Digital Currency Name"];
   // parse object into readable data for chart.js
   chartData = [];
   Object.keys(apiData["Time Series (Digital Currency Weekly)"]).forEach((key) =>
@@ -134,7 +134,7 @@ function buildChart() {
 
 function calcMaxProfit(e) {
   e.preventDefault();
-  let answer = {};
+  const answer = {};
   chartData.forEach((e) => (e.price = Number(e.price)));
   let prices = chartData;
   let profit = 0;
@@ -145,31 +145,23 @@ function calcMaxProfit(e) {
   for (let i = 1; i < prices.length; ++i) {
     if (min > prices[i].price) {
       min = prices[i].price;
-      // if (prices[i].date > answer?.sellDate) {
-      //   continue;
-      // }
-      // answer.buyDate = prices[i].date;
-      // answer.buy = min;
-      // console.log(answer.buy);
     } else if (prices[i].price - min > profit) {
       profit = prices[i].price - min;
       answer.sellDate = prices[i].date;
       answer.sell = prices[i].price;
       answer.maxProfit = profit;
-      // make function to find buydate & price based on proft
       findBuyDate(answer.sell, answer.maxProfit);
     }
 
     function findBuyDate(sellPrice, profit) {
       console.log(prices);
-      let buyInfo = prices.filter(
+      const buyInfo = prices.filter(
         (e) => e.price === +(sellPrice - profit).toFixed(6)
       );
       answer.buyDate = buyInfo[0].date;
       answer.buy = buyInfo[0].price.toFixed(2);
     }
   }
-  console.log(answer);
   // set text for max profit
   document.getElementById(
     "buy"
@@ -181,7 +173,6 @@ function calcMaxProfit(e) {
     (answer.maxProfit / answer.buy) *
     100
   ).toFixed(2)}% gain</th><th>$${answer.maxProfit.toFixed(2)}</th>`;
-  console.log(answer);
   return;
 }
 
