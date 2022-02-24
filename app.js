@@ -1,6 +1,6 @@
 "use strict";
 let apiData;
-const chartData = [];
+let chartData = [];
 let myChart;
 const submitBtn = document.getElementById("submit");
 submitBtn.addEventListener("click", submitSearch);
