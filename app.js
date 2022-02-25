@@ -23,28 +23,9 @@ function submitSearch(event) {
     return;
   }
   // not in local? make request
-  const apiRequest = new Request(
-    `https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_WEEKLY&symbol=${symbol}&market=USD&apikey=HPRS1K7BPTHM7CLU`
-  );
-  fetch(apiRequest)
-    .then(function (response) {
-      if (!response.ok) {
-        throw new Error("HTTP error, status = " + response.status);
-      }
-      return response.json();
-    })
-    .then(function (data) {
-      console.log("api return", data);
-      apiData = data;
-      localStorage.setItem(symbol, JSON.stringify(apiData));
-      buildChart();
-    })
-    .catch(function (error) {
-      alert("Coin not found, try a different ticker");
-    });
+  makeAPICall(symbol);
 }
 
-// chart logic below
 function buildChart() {
   const currencyName = apiData["Meta Data"]["3. Digital Currency Name"];
   // parse object into readable data for chart.js
@@ -65,7 +46,7 @@ function buildChart() {
     "weeks"
   ).innerText = `Last ${chartData.length} weeks.`;
 
-  let data = {
+  const data = {
     datasets: [
       {
         label: currencyName,
@@ -154,9 +135,8 @@ function calcMaxProfit(e) {
     }
 
     function findBuyDate(sellPrice, profit) {
-      console.log(prices);
       const buyInfo = prices.filter(
-        (e) => e.price === +(sellPrice - profit).toFixed(6)
+        (e) => e.price === +(sellPrice - profit).toFixed(8)
       );
       answer.buyDate = buyInfo[0].date;
       answer.buy = buyInfo[0].price.toFixed(2);
@@ -188,9 +168,14 @@ if (localStorage.getItem("BTC")) {
   console.info("Data from localstorage");
   buildChart();
 } else {
+  makeAPICall("BTC");
+}
+
+function makeAPICall(coin) {
   fetch(
     new Request(
-      `https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_WEEKLY&symbol=BTC&market=USD&apikey=HPRS1K7BPTHM7CLU`
+      // THIS IS A FREE API KEY, DO NOT EVER PUT ACTUAL PRIVATE KEYS IN FRONT END CODE
+      `https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_WEEKLY&symbol=${coin}&market=USD&apikey=HPRS1K7BPTHM7CLU`
     )
   )
     .then(function (response) {
@@ -200,12 +185,12 @@ if (localStorage.getItem("BTC")) {
       return response.json();
     })
     .then(function (data) {
-      console.log(data);
+      console.info("API response: ", data);
       apiData = data;
-      localStorage.setItem("BTC", JSON.stringify(apiData));
+      localStorage.setItem(coin, JSON.stringify(apiData));
       buildChart();
     })
     .catch(function (error) {
-      alert("API Having issues, try again later");
+      alert("Sorry having issues" + error);
     });
 }
